@@ -54,3 +54,81 @@ public class ClubManagementSystem {
         }
     }
 }
+
+/**
+ * 동아리를 나타내는 클래스
+ * <p>
+ * 동아리 이름, 회장, 설명, 가입 신청서를 관리합니다.
+ * </p>
+ *
+ * @author Ji Woo Park
+ * @version 1.0
+ * @since 2024-12-18
+ */
+class Club {
+    private String name;
+    private String president;
+    private String description;
+    private List<Member> pendingApplications;
+
+    /**
+     * {@link Club} 객체를 초기화합니다.
+     *
+     * @param name 동아리 이름
+     * @param president 동아리 회장 이름
+     * @param description 동아리 설명
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
+    public Club(String name, String president, String description) {
+        this.name = name;
+        this.president = president;
+        this.description = description;
+        this.pendingApplications = new ArrayList<>();
+    }
+
+    /**
+     * 동아리 이름을 반환합니다.
+     *
+     * @return 동아리 이름
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 동아리 회장의 이름을 반환합니다.
+     *
+     * @return 동아리 회장 이름
+     */
+    public String getPresident() {
+        return president;
+    }
+
+    /**
+     * 동아리 설명을 반환합니다.
+     *
+     * @return 동아리 설명
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * 가입 신청서를 추가합니다.
+     *
+     * @param member 가입 신청을 한 회원 객체
+     */
+    public void addPendingApplication(Member member) {
+        pendingApplications.add(member);
+    }
+
+    /**
+     * 가입 신청 목록을 반환합니다.
+     *
+     * @return 가입 신청 중인 {@link Member} 객체의 리스트
+     */
+    public List<Member> getPendingApplications() {
+        return pendingApplications;
+    }
+}
