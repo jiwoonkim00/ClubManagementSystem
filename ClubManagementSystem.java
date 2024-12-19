@@ -61,7 +61,7 @@ public class ClubManagementSystem {
  * 동아리 이름, 회장, 설명, 가입 신청서를 관리합니다.
  * </p>
  *
- * @author Ji Woo Park
+ * @author Ji Woon Kim
  * @version 1.0
  * @since 2024-12-18
  */
@@ -130,5 +130,51 @@ class Club {
      */
     public List<Member> getPendingApplications() {
         return pendingApplications;
+    }
+}
+
+/**
+ * 동아리 회원을 나타내는 클래스
+ * <p>
+ * 회원 이름과 가입 신청서를 포함합니다.
+ * </p>
+ *
+ * @author Ji Woon Kim
+ * @version 1.0
+ * @since 2024-12-18
+ */
+class Member {
+    private String name;
+    private String applicationText;
+
+    /**
+     * {@link Member} 객체를 초기화합니다.
+     *
+     * @param name 회원 이름
+     * @param applicationText 가입 신청서 내용
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
+    public Member(String name, String applicationText) {
+        this.name = name;
+        this.applicationText = applicationText;
+    }
+
+    /**
+     * 회원 이름을 반환합니다.
+     *
+     * @return 회원 이름
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 회원이 작성한 가입 신청서 내용을 반환합니다.
+     *
+     * @return 가입 신청서 내용
+     */
+    public String getApplicationText() {
+        return applicationText;
     }
 }
