@@ -178,3 +178,71 @@ class Member {
         return applicationText;
     }
 }
+
+/**
+ * 동아리 관리를 담당하는 클래스
+ * <p>
+ * 동아리의 추가, 삭제, 검색 및 목록 관리를 제공합니다.
+ * </p>
+ *
+ * @author Ji Woo Park
+ * @version 1.0
+ * @since 2024-12-18
+ */
+class ClubManager {
+    private Map<String, Club> clubs;
+
+    /**
+     * {@link ClubManager} 객체를 초기화합니다.
+     * <p>
+     * 내부적으로 빈 동아리 맵을 생성합니다.
+     * </p>
+     *
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
+    public ClubManager() {
+        this.clubs = new HashMap<>();
+    }
+
+    /**
+     * 새로운 동아리를 추가합니다.
+     * <p>
+     * 동아리 이름을 키로 사용하여 내부 맵에 저장합니다.
+     * </p>
+     *
+     * @param club 추가할 동아리 객체
+     */
+    public void addClub(Club club) {
+        clubs.put(club.getName(), club);
+    }
+
+    /**
+     * 동아리를 삭제합니다.
+     *
+     * @param name 삭제할 동아리의 이름
+     * @return 삭제가 성공하면 true, 아니면 false
+     */
+    public boolean removeClub(String name) {
+        return clubs.remove(name) != null;
+    }
+
+    /**
+     * 동아리를 이름으로 검색합니다.
+     *
+     * @param name 검색할 동아리의 이름
+     * @return 해당 이름의 동아리 객체. 없으면 null 반환
+     */
+    public Club getClub(String name) {
+        return clubs.get(name);
+    }
+
+    /**
+     * 모든 동아리 목록을 반환합니다.
+     *
+     * @return {@link Club} 객체의 리스트
+     */
+    public List<Club> getAllClubs() {
+        return new ArrayList<>(clubs.values());
+    }
+}
