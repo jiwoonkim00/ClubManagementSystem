@@ -32,7 +32,15 @@ public class ClubManagementSystem {
         loadClubsFromFile();
         new ClubManagementSystemGUI(clubManager);
     }
-
+    /**
+     * 프로그램의 메인 진입점입니다.
+     * <p>
+     * {@link ClubManagementSystem} 인스턴스를 생성하여 실행합니다.
+     * </p>
+     *
+     * @param args 명령줄 인자 (사용하지 않음)
+     *
+     */
     public static void main(String[] args) {
         new ClubManagementSystem();
     }
