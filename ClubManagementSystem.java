@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2024-12-18
  */
 public class ClubManagementSystem {
-
+    private ClubManager clubManager;
     /**
      * 청주대학교 동아리 관리 시스템을 초기화합니다.
      * <p>
@@ -44,6 +44,18 @@ public class ClubManagementSystem {
     public static void main(String[] args) {
         new ClubManagementSystem();
     }
+
+    /**
+     * 파일에서 동아리 데이터를 읽어옵니다.
+     * <p>
+     * 동아리 데이터는 "src/clubs_data.txt" 파일에서 ,(컴마)를 기준으로 로드되며,
+     * 각 라인은 "동아리 이름,회장 이름,소개" 형식으로 작성되어야 합니다.
+     * 파일이 없거나 읽기에 실패할 경우 에러 메시지를 출력합니다.
+     * </p>
+     *
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
     private void loadClubsFromFile() {
         String fileName = "src/clubs_data.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -62,6 +74,7 @@ public class ClubManagementSystem {
         }
     }
 }
+
 
 /**
  * 동아리를 나타내는 클래스
@@ -254,3 +267,4 @@ class ClubManager {
         return new ArrayList<>(clubs.values());
     }
 }
+
