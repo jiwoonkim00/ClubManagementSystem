@@ -459,6 +459,48 @@ class ClubManagementSystemGUI {
     }
 
     /**
+     * 가입 신청서를 표로 표시합니다.
+     * <p>
+     * 이 메서드는 특정 동아리에 제출된 가입 신청서를 JTable로 표시하며,
+     * 신청자의 이름과 작성한 신청서를 포함합니다.
+     * </p>
+     *
+     * <p>
+     * 레이아웃:
+     * <ul>
+     *   <li>JFrame: 가입 신청 목록을 표시하는 창</li>
+     *   <li>JTable: 신청 정보를 표시하는 테이블</li>
+     *   <li>JScrollPane: 테이블이 스크롤 가능하도록 설정</li>
+     * </ul>
+     * </p>
+     *
+     * @param parentFrame 부모 프레임
+     * @param club 가입 신청 목록을 표시할 동아리 객체
+     *
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
+    private void displayApplicationTable(JFrame parentFrame, Club club) {
+        JFrame frame = new JFrame("가입 신청 목록");
+        frame.setSize(600, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        String[] columns = {"이름", "신청 내용"};
+        DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+
+        for (Member member : club.getPendingApplications()) {
+            tableModel.addRow(new Object[]{member.getName(), member.getApplicationText()});
+        }
+
+        JTable table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        frame.add(scrollPane);
+        frame.setVisible(true);
+    }
+
+
+    /**
  * 동아리를 나타내는 클래스
  * <p>
  * 동아리 이름, 회장, 설명, 가입 신청서를 관리합니다.
