@@ -419,6 +419,46 @@ class ClubManagementSystemGUI {
 
 
     /**
+     * 동아리 목록을 표로 표시합니다.
+     * <p>
+     * 이 메서드는 등록된 동아리 목록을 JTable로 표시하며, 동아리 이름, 회장, 설명 정보를 포함합니다.
+     * </p>
+     *
+     * <p>
+     * 레이아웃:
+     * <ul>
+     *   <li>JFrame: 동아리 목록을 표시하는 창</li>
+     *   <li>JTable: 동아리 정보를 표시하는 테이블</li>
+     *   <li>JScrollPane: 테이블이 스크롤 가능하도록 설정</li>
+     * </ul>
+     * </p>
+     *
+     * @param parentFrame 부모 프레임
+     * @param clubs 표시할 동아리 목록
+     *
+     * @created 2024-12-20
+     * @lastModified 2024-12-20
+     */
+    private void displayClubTable(JFrame parentFrame, List<Club> clubs) {
+        JFrame frame = new JFrame("동아리 목록");
+        frame.setSize(600, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        String[] columns = {"동아리 이름", "회장", "소개"};
+        DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+
+        for (Club club : clubs) {
+            tableModel.addRow(new Object[]{club.getName(), club.getPresident(), club.getDescription()});
+        }
+
+        JTable table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        frame.add(scrollPane);
+        frame.setVisible(true);
+    }
+
+    /**
  * 동아리를 나타내는 클래스
  * <p>
  * 동아리 이름, 회장, 설명, 가입 신청서를 관리합니다.
