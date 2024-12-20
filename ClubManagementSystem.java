@@ -23,7 +23,7 @@ public class ClubManagementSystem {
      * </p>
      *
      * @created 2024-12-18
-     * @lastModified 2024-12-18
+     * @lastModified 2024-12-19
      *
      */
 
@@ -75,6 +75,33 @@ public class ClubManagementSystem {
     }
 }
 
+/**
+ * GUI 관리 클래스
+ * <p>
+ * 청주대학교 동아리 관리 시스템의 메인 메뉴와 각 모드의 서브 메뉴를 제공하는 GUI 클래스입니다.
+ * </p>
+ *
+ * @author Ji Woon Kim
+ * @version 1.0
+ * @since 2024-12-19
+ */
+class ClubManagementSystemGUI {
+    private ClubManager clubManager;
+
+    /**
+     * {@link ClubManagementSystemGUI} 생성자.
+     * <p>
+     * 주어진 {@link ClubManager}를 사용하여 GUI를 초기화하고 메인 메뉴를 표시합니다.
+     * </p>
+     *
+     * @param clubManager 동아리 데이터를 관리하는 {@link ClubManager} 인스턴스
+     * @created 2024-12-19
+     * @lastModified 2024-12-19
+     */
+    public ClubManagementSystemGUI(ClubManager clubManager) {
+        this.clubManager = clubManager;
+        showMainMenu();
+    }
 
 /**
  * 동아리를 나타내는 클래스
