@@ -140,8 +140,8 @@ class ClubManagementSystemGUI {
      * </ul>
      * </p>
      *
-     * @created 2024-12-18
-     * @lastModified 2024-12-18
+     * @created 2024-12-19
+     * @lastModified 2024-12-19
      */
     private void showMainMenu() {
         JFrame frame = new JFrame("청주대학교 동아리 관리 시스템");
@@ -181,7 +181,99 @@ class ClubManagementSystemGUI {
 
         frame.setVisible(true);
     }
-/**
+
+    /**
+     * 관리자 메뉴를 표시합니다.
+     * <p>
+     * 이 메서드는 관리자 전용 메뉴를 생성하고 표시합니다.
+     * 관리자 메뉴는 동아리 관리 기능을 수행할 수 있는 네 개의 버튼으로 구성되어 있습니다.
+     * 동아리를 추가하거나 삭제할 수 있으며, 등록된 동아리 목록을 조회하거나 메인 메뉴로 돌아갈 수 있습니다.
+     * </p>
+     *
+     * <p>
+     * 구성 요소:
+     * <ul>
+     *   <li>동아리 추가 버튼: 새로운 동아리를 추가할 수 있는 입력 폼을 표시</li>
+     *   <li>동아리 삭제 버튼: 삭제할 동아리 이름을 입력받아 동아리를 삭제</li>
+     *   <li>동아리 목록 조회 버튼: 등록된 모든 동아리를 표로 표시</li>
+     *   <li>이전으로 돌아가기 버튼: 메인 메뉴로 돌아가기</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 레이아웃:
+     * <ul>
+     *   <li>JFrame: 전체 관리자 메뉴를 담는 창</li>
+     *   <li>GridLayout: 버튼들이 세로로 정렬되도록 설정</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 버튼 동작:
+     * <ul>
+     *   <li>동아리 추가 버튼: {@link ClubManager#addClub(Club)} 호출</li>
+     *   <li>동아리 삭제 버튼: {@link ClubManager#removeClub(String)} 호출</li>
+     *   <li>동아리 목록 조회 버튼: {@link #displayClubTable(JFrame, List)} 호출</li>
+     *   <li>이전으로 돌아가기 버튼: 메인 메뉴로 이동</li>
+     * </ul>
+     * </p>
+     *
+     * @created 2024-12-19
+     * @lastModified 2024-12-19
+     */
+    private void showAdminMenu() {
+        JFrame frame = new JFrame("관리자 모드");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(4, 1));
+
+        JButton addClubButton = new JButton("동아리 추가");
+        addClubButton.addActionListener(e -> {
+            String name = JOptionPane.showInputDialog(frame, "동아리 이름:");
+            if (name == null || name.trim().isEmpty()) return;
+
+            String president = JOptionPane.showInputDialog(frame, "회장 이름:");
+            if (president == null || president.trim().isEmpty()) return;
+
+            String description = JOptionPane.showInputDialog(frame, "동아리 소개:");
+            if (description == null || description.trim().isEmpty()) return;
+
+            clubManager.addClub(new Club(name, president, description));
+            saveClubsToFile();
+            JOptionPane.showMessageDialog(frame, "동아리가 추가되었습니다.");
+        });
+
+        JButton removeClubButton = new JButton("동아리 삭제");
+        removeClubButton.addActionListener(e -> {
+            String name = JOptionPane.showInputDialog(frame, "삭제할 동아리 이름:");
+            if (name == null || name.trim().isEmpty()) return;
+
+            if (clubManager.removeClub(name)) {
+                saveClubsToFile();
+                JOptionPane.showMessageDialog(frame, "동아리가 삭제되었습니다.");
+            } else {
+                JOptionPane.showMessageDialog(frame, "해당 동아리를 찾을 수 없습니다.");
+            }
+        });
+
+        JButton listClubsButton = new JButton("동아리 목록 조회");
+        listClubsButton.addActionListener(e -> displayClubTable(frame, clubManager.getAllClubs()));
+
+        JButton backButton = new JButton("이전으로 돌아가기");
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            showMainMenu();
+        });
+
+        frame.add(addClubButton);
+        frame.add(removeClubButton);
+        frame.add(listClubsButton);
+        frame.add(backButton);
+
+        frame.setVisible(true);
+    }
+
+    /**
  * 동아리를 나타내는 클래스
  * <p>
  * 동아리 이름, 회장, 설명, 가입 신청서를 관리합니다.
