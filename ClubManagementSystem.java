@@ -307,8 +307,8 @@ class ClubManagementSystemGUI {
      * </ul>
      * </p>
      *
-     * @created 2024-12-18
-     * @lastModified 2024-12-18
+     * @created 2024-12-20
+     * @lastModified 2024-12-20
      */
     private void showStudentMenu() {
         JFrame frame = new JFrame("학생 모드");
@@ -351,6 +351,72 @@ class ClubManagementSystemGUI {
 
         frame.setVisible(true);
     }
+
+    /**
+     * 동아리 회장 메뉴를 표시합니다.
+     * <p>
+     * 이 메서드는 동아리 회장 전용 메뉴를 생성하고 표시합니다.
+     * 회장은 동아리에 제출된 가입 신청서를 확인하고 승인할 수 있습니다.
+     * </p>
+     *
+     * <p>
+     * 구성 요소:
+     * <ul>
+     *   <li>가입 신청서 확인 및 승인 버튼: 특정 동아리에 제출된 가입 신청서를 조회 및 승인</li>
+     *   <li>이전으로 돌아가기 버튼: 메인 메뉴로 돌아가기</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 레이아웃:
+     * <ul>
+     *   <li>JFrame: 동아리 회장 메뉴를 담는 창</li>
+     *   <li>GridLayout: 버튼들이 세로로 정렬되도록 설정</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 버튼 동작:
+     * <ul>
+     *   <li>가입 신청서 확인 및 승인 버튼: {@link #displayApplicationTable(JFrame, Club)} 호출</li>
+     *   <li>이전으로 돌아가기 버튼: 메인 메뉴로 이동</li>
+     * </ul>
+     * </p>
+     *
+     * @created 2024-12-20
+     * @lastModified 2024-12-20
+     */
+    private void showPresidentMenu() {
+        JFrame frame = new JFrame("동아리 회장 모드");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(2, 1));
+
+        JButton viewApplicationsButton = new JButton("가입 신청서 확인 및 승인");
+        viewApplicationsButton.addActionListener(e -> {
+            String clubName = JOptionPane.showInputDialog(frame, "동아리 이름:");
+            if (clubName == null || clubName.trim().isEmpty()) return;
+
+            Club club = clubManager.getClub(clubName);
+            if (club != null) {
+                displayApplicationTable(frame, club);
+            } else {
+                JOptionPane.showMessageDialog(frame, "해당 동아리가 존재하지 않습니다.");
+            }
+        });
+
+        JButton backButton = new JButton("이전으로 돌아가기");
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            showMainMenu();
+        });
+
+        frame.add(viewApplicationsButton);
+        frame.add(backButton);
+
+        frame.setVisible(true);
+    }
+
 
     /**
  * 동아리를 나타내는 클래스
