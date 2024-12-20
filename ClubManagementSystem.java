@@ -57,7 +57,7 @@ public class ClubManagementSystem {
      * @lastModified 2024-12-18
      */
     private void loadClubsFromFile() {
-        String fileName = "src/clubs_data.txt";
+        String fileName = "clubs_data.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
