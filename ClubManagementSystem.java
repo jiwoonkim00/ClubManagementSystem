@@ -103,6 +103,84 @@ class ClubManagementSystemGUI {
         showMainMenu();
     }
 
+    /**
+     * 메인 메뉴를 표시합니다.
+     * <p>
+     * 이 메서드는 프로그램의 첫 화면인 메인 메뉴를 생성하고 표시합니다.
+     * 메인 메뉴에는 네 개의 주요 버튼이 포함되어 있으며, 각각 관리자 모드, 학생 모드, 동아리 회장 모드로의
+     * 접근과 프로그램 종료 기능을 제공합니다. 버튼 클릭 시 해당 모드의 서브 메뉴로 이동하거나 프로그램을 종료합니다.
+     * </p>
+     *
+     * <p>
+     * 구성 요소:
+     * <ul>
+     *   <li>제목 라벨: "청주대학교 동아리 관리 시스템" 텍스트를 중앙에 굵은 글씨로 표시</li>
+     *   <li>관리자 모드 버튼: 관리자 전용 기능(동아리 추가/삭제 등)에 접근</li>
+     *   <li>학생 모드 버튼: 학생 전용 기능(동아리 목록 조회, 가입 신청 등)에 접근</li>
+     *   <li>동아리 회장 모드 버튼: 가입 신청 관리 및 기타 회장 전용 기능에 접근</li>
+     *   <li>종료 버튼: 프로그램을 종료</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 레이아웃:
+     * <ul>
+     *   <li>JFrame: 전체 메인 메뉴를 담는 창</li>
+     *   <li>GridLayout: 메뉴 버튼들이 세로로 정렬되도록 설정</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 버튼 동작:
+     * <ul>
+     *   <li>관리자 모드 버튼: {@link #showAdminMenu()} 호출</li>
+     *   <li>학생 모드 버튼: {@link #showStudentMenu()} 호출</li>
+     *   <li>동아리 회장 모드 버튼: {@link #showPresidentMenu()} 호출</li>
+     *   <li>종료 버튼: 프로그램 종료</li>
+     * </ul>
+     * </p>
+     *
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
+    private void showMainMenu() {
+        JFrame frame = new JFrame("청주대학교 동아리 관리 시스템");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(5, 1));
+
+        JLabel label = new JLabel("청주대학교 동아리 관리 시스템", SwingConstants.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JButton adminButton = new JButton("관리자 모드");
+        adminButton.addActionListener(e -> {
+            frame.dispose();
+            showAdminMenu();
+        });
+
+        JButton studentButton = new JButton("학생 모드");
+        studentButton.addActionListener(e -> {
+            frame.dispose();
+            showStudentMenu();
+        });
+
+        JButton presidentButton = new JButton("동아리 회장 모드");
+        presidentButton.addActionListener(e -> {
+            frame.dispose();
+            showPresidentMenu();
+        });
+
+        JButton exitButton = new JButton("종료");
+        exitButton.addActionListener(e -> System.exit(0));
+
+        frame.add(label);
+        frame.add(adminButton);
+        frame.add(studentButton);
+        frame.add(presidentButton);
+        frame.add(exitButton);
+
+        frame.setVisible(true);
+    }
 /**
  * 동아리를 나타내는 클래스
  * <p>
