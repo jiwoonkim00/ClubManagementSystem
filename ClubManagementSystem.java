@@ -141,7 +141,7 @@ class ClubManagementSystemGUI {
      * </p>
      *
      * @created 2024-12-19
-     * @lastModified 2024-12-19
+     * @lastModified 2024-12-20
      */
     private void showMainMenu() {
         JFrame frame = new JFrame("청주대학교 동아리 관리 시스템");
@@ -219,7 +219,7 @@ class ClubManagementSystemGUI {
      * </p>
      *
      * @created 2024-12-19
-     * @lastModified 2024-12-19
+     * @lastModified 2024-12-20
      */
     private void showAdminMenu() {
         JFrame frame = new JFrame("관리자 모드");
@@ -268,6 +268,85 @@ class ClubManagementSystemGUI {
         frame.add(addClubButton);
         frame.add(removeClubButton);
         frame.add(listClubsButton);
+        frame.add(backButton);
+
+        frame.setVisible(true);
+    }
+
+    /**
+     * 학생 메뉴를 표시합니다.
+     * <p>
+     * 이 메서드는 학생 전용 메뉴를 생성하고 표시합니다.
+     * 학생 메뉴는 동아리 조회 및 동아리 가입 신청 기능을 제공합니다.
+     * 학생은 동아리 목록을 확인하거나 특정 동아리에 가입 신청서를 제출할 수 있습니다.
+     * </p>
+     *
+     * <p>
+     * 구성 요소:
+     * <ul>
+     *   <li>동아리 목록 조회 버튼: 등록된 모든 동아리를 표로 확인</li>
+     *   <li>동아리 가입 신청 버튼: 동아리 이름과 가입 신청서를 작성 후 제출</li>
+     *   <li>이전으로 돌아가기 버튼: 메인 메뉴로 돌아가기</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 레이아웃:
+     * <ul>
+     *   <li>JFrame: 학생 메뉴를 담는 창</li>
+     *   <li>GridLayout: 버튼들이 세로로 정렬되도록 설정</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 버튼 동작:
+     * <ul>
+     *   <li>동아리 목록 조회 버튼: {@link #displayClubTable(JFrame, List)} 호출</li>
+     *   <li>동아리 가입 신청 버튼: {@link Club#addPendingApplication(Member)} 호출</li>
+     *   <li>이전으로 돌아가기 버튼: 메인 메뉴로 이동</li>
+     * </ul>
+     * </p>
+     *
+     * @created 2024-12-18
+     * @lastModified 2024-12-18
+     */
+    private void showStudentMenu() {
+        JFrame frame = new JFrame("학생 모드");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(3, 1));
+
+        JButton listClubsButton = new JButton("동아리 목록 조회");
+        listClubsButton.addActionListener(e -> displayClubTable(frame, clubManager.getAllClubs()));
+
+        JButton joinClubButton = new JButton("동아리 가입 신청");
+        joinClubButton.addActionListener(e -> {
+            String studentName = JOptionPane.showInputDialog(frame, "학생 이름:");
+            if (studentName == null || studentName.trim().isEmpty()) return;
+
+            String clubName = JOptionPane.showInputDialog(frame, "가입할 동아리 이름:");
+            if (clubName == null || clubName.trim().isEmpty()) return;
+
+            Club club = clubManager.getClub(clubName);
+            if (club != null) {
+                String applicationText = JOptionPane.showInputDialog(frame, "가입 신청서 내용:");
+                if (applicationText == null || applicationText.trim().isEmpty()) return;
+
+                club.addPendingApplication(new Member(studentName, applicationText));
+                JOptionPane.showMessageDialog(frame, "가입 신청이 제출되었습니다.");
+            } else {
+                JOptionPane.showMessageDialog(frame, "해당 동아리가 존재하지 않습니다.");
+            }
+        });
+
+        JButton backButton = new JButton("이전으로 돌아가기");
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            showMainMenu();
+        });
+
+        frame.add(listClubsButton);
+        frame.add(joinClubButton);
         frame.add(backButton);
 
         frame.setVisible(true);
