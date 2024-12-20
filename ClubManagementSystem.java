@@ -477,8 +477,8 @@ class ClubManagementSystemGUI {
      * @param parentFrame 부모 프레임
      * @param club 가입 신청 목록을 표시할 동아리 객체
      *
-     * @created 2024-12-18
-     * @lastModified 2024-12-18
+     * @created 2024-12-20
+     * @lastModified 2024-12-20
      */
     private void displayApplicationTable(JFrame parentFrame, Club club) {
         JFrame frame = new JFrame("가입 신청 목록");
@@ -499,6 +499,56 @@ class ClubManagementSystemGUI {
         frame.setVisible(true);
     }
 
+    /**
+     * 동아리 데이터를 파일에 저장합니다.
+     * <p>
+     * 현재 등록된 모든 동아리 정보를 "clubs_data.txt" 파일에 저장합니다.
+     * 각 동아리 정보는 CSV 형식으로 저장되며, 파일은 UTF-8 형식으로 작성됩니다.
+     * </p>
+     *
+     * <p>
+     * 파일 형식:
+     * <ul>
+     *   <li>파일 이름: "clubs_data.txt"</li>
+     *   <li>형식: "동아리 이름,회장 이름,소개"</li>
+     *   <li>줄바꿈: 각 동아리마다 한 줄</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 주요 동작:
+     * <ul>
+     *   <li>{@link ClubManager#getAllClubs()} 메서드를 호출하여 모든 동아리 정보를 가져옵니다.</li>
+     *   <li>{@link BufferedWriter}를 사용하여 파일을 작성합니다.</li>
+     *   <li>파일 쓰기 중 문제가 발생할 경우, 예외를 잡아 에러 메시지를 출력합니다.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 예외 처리:
+     * <ul>
+     *   <li>IOException: 파일 쓰기 중 오류가 발생한 경우, 콘솔에 오류 메시지를 출력합니다.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * 참고: 이 메서드는 동기적으로 작동하며, 실행 중 파일이 잠길 수 있으므로 호출 전에 동시성 문제를 고려해야 합니다.
+     * </p>
+     *
+     * @created 2024-12-20
+     * @lastModified 2024-12-20
+     */
+    private void saveClubsToFile() {
+        String fileName = "clubs_data.txt";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+            for (Club club : clubManager.getAllClubs()) {
+                bw.write(String.format("%s,%s,%s%n", club.getName(), club.getPresident(), club.getDescription()));
+            }
+        } catch (IOException e) {
+            System.out.println("[ERROR] 동아리 데이터를 저장하는 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+}
 
     /**
  * 동아리를 나타내는 클래스
