@@ -73,6 +73,37 @@ public class ClubManagementSystem {
             System.out.println("[INFO] 초기 동아리 데이터를 로드할 수 없습니다: " + e.getMessage());
         }
     }
+
+    private Map<String, String> users = new HashMap<>(); // 아이디-비밀번호 저장
+    private Map<String, String> roles = new HashMap<>(); // 아이디-역할 저장
+
+    /**
+     * 파일에서 사용자 정보를 로드합니다.
+     * <p>
+     * 파일 포맷: 아이디,비밀번호,역할
+     * 예: admin,admin123,관리자
+     * </p>
+     *
+     * @created 2024-12-23
+     */
+    private void loadUsersFromFile() {
+        String fileName = "users.txt"; // 사용자 정보 파일 경로
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    String id = parts[0].trim();
+                    String password = parts[1].trim();
+                    String role = parts[2].trim();
+                    users.put(id, password);
+                    roles.put(id, role);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("[ERROR] 사용자 데이터를 로드할 수 없습니다: " + e.getMessage());
+        }
+    }
 }
 
 /**
