@@ -183,7 +183,19 @@ class ClubManagementSystemGUI {
      * </ul>
      * </p>
      *
+     *  <p>
+     *  동작 방식:
+     *  <ul>
+     *    <li>로그인 성공: {@link #showAdminMenu()}, {@link #showStudentMenu()}, {@link #showPresidentMenu()} 호출</li>
+     *    <li>로그인 실패: 경고 메시지 표시</li>
+     *    <li>닫기 버튼: 창만 닫히고 프로그램은 계속 실행</li>
+     *  </ul>
+     *  </p>
+     *
+     *  @param parentFrame 호출한 부모 JFrame (메인 메뉴)
+     *  @param role 접근하려는 역할 ("관리자", "학생", "동아리 회장")
      * @created 2024-12-23
+     * @lastModified 2024-12-23
      */
 
 
@@ -412,7 +424,7 @@ class ClubManagementSystemGUI {
         frame.setVisible(true);
     }
 
-    /**
+     /**
      * 학생 메뉴를 표시합니다.
      * <p>
      * 이 메서드는 학생 전용 메뉴를 생성하고 표시합니다.
@@ -420,27 +432,27 @@ class ClubManagementSystemGUI {
      * 학생은 동아리 목록을 확인하거나 특정 동아리에 가입 신청서를 제출할 수 있습니다.
      * </p>
      *
-     *  * <p>
-     *  * 주요 변경 사항(2024-12-23):
-     *  * <ul>
-     *      <li>{@code JTextArea} 구성:
-     *  *     <ul>
-     *  *       <li>{@code setLineWrap(true)}: 줄바꿈 활성화</li>
-     *  *       <li>{@code setWrapStyleWord(true)}: 단어 단위로 줄바꿈</li>
-     *  *     </ul>
-     *  *   <li><b>JTextArea 사용</b>:
-     *  *     <p>가입 신청서 작성 시, {@code JTextArea(10, 30)}로 텍스트 입력 크기를 설정하였습니다.
-     *  *     여기서 10은 줄 수, 30은 열 수를 의미하며, 사용자가 더 긴 텍스트를 입력할 수 있는 공간을 제공합니다.</p>
-     *  *   </li>
-     *  *   <li><b>JScrollPane로 스크롤 가능 설정</b>:
-     *  *     <p>{@code JScrollPane}를 추가하여 텍스트가 길어질 경우 스크롤을 통해 내용을 확인할 수 있도록 하였습니다.</p>
-     *  *   </li>
-     *  *   <li><b>입력 확인</b>:
-     *  *     <p>{@code JOptionPane.showConfirmDialog}를 사용하여 OK/Cancel 버튼이 있는 입력 창을 표시하였습니다.
-     *  *     사용자가 입력 후 확인 버튼을 누르면 동아리 가입 신청서가 저장됩니다.</p>
-     *  *   </li>
-     *  * </ul>
-     *  * </p>
+     *  <p>
+     *  주요 변경 사항(2024-12-23):
+     *  <ul>
+     *    <li>{@code JTextArea} 구성:
+     *      <ul>
+     *        <li>{@code setLineWrap(true)}: 줄바꿈 활성화</li>
+     *        <li>{@code setWrapStyleWord(true)}: 단어 단위로 줄바꿈</li>
+     *      </ul>
+     *    <li><b>JTextArea 사용</b>:
+     *      <p>가입 신청서 작성 시, {@code JTextArea(10, 30)}로 텍스트 입력 크기를 설정하였습니다.
+     *      여기서 10은 줄 수, 30은 열 수를 의미하며, 사용자가 더 긴 텍스트를 입력할 수 있는 공간을 제공합니다.</p>
+     *    </li>
+     *    <li><b>JScrollPane로 스크롤 가능 설정</b>:
+     *      <p>{@code JScrollPane}를 추가하여 텍스트가 길어질 경우 스크롤을 통해 내용을 확인할 수 있도록 하였습니다.</p>
+     *    </li>
+     *    <li><b>입력 확인</b>:
+     *      <p>{@code JOptionPane.showConfirmDialog}를 사용하여 OK/Cancel 버튼이 있는 입력 창을 표시하였습니다.
+     *      사용자가 입력 후 확인 버튼을 누르면 동아리 가입 신청서가 저장됩니다.</p>
+     *    </li>
+     *  </ul>
+     *  </p>
      * <p>
      * 구성 요소:
      * <ul>
