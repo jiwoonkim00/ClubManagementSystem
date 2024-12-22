@@ -186,9 +186,7 @@ class ClubManagementSystemGUI {
      * @created 2024-12-23
      */
 
-    public void showLoginScreen() {
-        showLoginScreen(null, null); // 기본적으로 parentFrame과 role을 null로 설정
-    }
+
     public void showLoginScreen(JFrame parentFrame, String role) {
 
         JFrame frame = new JFrame("로그인");
@@ -233,13 +231,14 @@ class ClubManagementSystemGUI {
             }
         });
 
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 창 닫기 시 프로그램 종료하지 않음
         frame.add(idLabel);
         frame.add(idField);
         frame.add(passwordLabel);
         frame.add(passwordField);
         frame.add(loginButton);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         frame.setVisible(true);
     }
 
