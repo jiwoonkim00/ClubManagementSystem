@@ -1,0 +1,3 @@
+admin,admin123,관리자
+student1,pass123,학생
+president1,club123,동아리 회장

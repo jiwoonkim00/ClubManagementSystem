@@ -29,8 +29,9 @@ public class ClubManagementSystem {
 
     public ClubManagementSystem() {
         this.clubManager = new ClubManager();
+        loadUsersFromFile(); // 사용자 정보 로드
         loadClubsFromFile();
-        new ClubManagementSystemGUI(clubManager);
+        new ClubManagementSystemGUI(clubManager).showLoginScreen(); // 로그인 화면 표시
     }
     /**
      * 프로그램의 메인 진입점입니다.
@@ -117,6 +118,9 @@ public class ClubManagementSystem {
  * @since 2024-12-19
  */
 class ClubManagementSystemGUI {
+    private Map<String, String> users; // 사용자 ID와 비밀번호 저장
+    private Map<String, String> roles; // 사용자 ID와 역할 저장
+
     private ClubManager clubManager;
 
     /**
@@ -131,7 +135,104 @@ class ClubManagementSystemGUI {
      */
     public ClubManagementSystemGUI(ClubManager clubManager) {
         this.clubManager = clubManager;
-        showMainMenu();
+        users = new HashMap<>();
+        roles = new HashMap<>();
+        loadUsersFromFile("users.txt"); //
+    }
+
+    /**
+     * 사용자 데이터를 파일에서 로드합니다.
+     * <p>
+     * 각 줄은 "ID,비밀번호,역할" 형식으로 작성되어야 합니다.
+     * </p>
+     *
+     * @param filePath 사용자 데이터 파일 경로
+     */
+    private void loadUsersFromFile(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    String id = parts[0].trim();
+                    String password = parts[1].trim();
+                    String role = parts[2].trim();
+
+                    users.put(id, password);
+                    roles.put(id, role);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("[ERROR] 사용자 데이터를 로드할 수 없습니다: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 로그인 화면을 표시합니다.
+     * <p>
+     * 사용자 아이디와 비밀번호를 입력받아 역할을 검증합니다.
+     * 성공 시 역할에 따라 다른 메뉴를 표시합니다.
+     * </p>
+     *
+     * <p>
+     * 구성 요소:
+     * <ul>
+     *   <li>아이디 입력 필드</li>
+     *   <li>비밀번호 입력 필드</li>
+     *   <li>로그인 버튼</li>
+     * </ul>
+     * </p>
+     *
+     * @created 2024-12-23
+     */
+    public void showLoginScreen() {
+
+
+        JFrame frame = new JFrame("로그인");
+        frame.setSize(300, 200);
+        frame.setLayout(new GridLayout(3, 2));
+
+        JLabel idLabel = new JLabel("아이디:");
+        JTextField idField = new JTextField();
+
+        JLabel passwordLabel = new JLabel("비밀번호:");
+        JPasswordField passwordField = new JPasswordField();
+
+        JButton loginButton = new JButton("로그인");
+        loginButton.addActionListener(e -> {
+            String id = idField.getText();
+            String password = new String(passwordField.getPassword());
+
+            // 사용자 검증
+            if (users.containsKey(id) && users.get(id).equals(password)) {
+                String role = roles.get(id); // 역할 확인
+                frame.dispose(); // 로그인 창 닫기
+
+                // 역할에 따라 다음 화면으로 이동
+                switch (role) {
+                    case "관리자":
+                        showAdminMenu();
+                        break;
+                    case "학생":
+                        showStudentMenu();
+                        break;
+                    case "동아리 회장":
+                        showPresidentMenu();
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "로그인 정보가 잘못되었습니다.");
+            }
+        });
+
+        frame.add(idLabel);
+        frame.add(idField);
+        frame.add(passwordLabel);
+        frame.add(passwordField);
+        frame.add(loginButton);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     /**
