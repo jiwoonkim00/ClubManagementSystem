@@ -284,6 +284,11 @@ class ClubManagementSystemGUI {
      *  * <p>
      *  * 주요 변경 사항(2024-12-23):
      *  * <ul>
+     *      <li>{@code JTextArea} 구성:
+     *  *     <ul>
+     *  *       <li>{@code setLineWrap(true)}: 줄바꿈 활성화</li>
+     *  *       <li>{@code setWrapStyleWord(true)}: 단어 단위로 줄바꿈</li>
+     *  *     </ul>
      *  *   <li><b>JTextArea 사용</b>:
      *  *     <p>가입 신청서 작성 시, {@code JTextArea(10, 30)}로 텍스트 입력 크기를 설정하였습니다.
      *  *     여기서 10은 줄 수, 30은 열 수를 의미하며, 사용자가 더 긴 텍스트를 입력할 수 있는 공간을 제공합니다.</p>
@@ -346,6 +351,8 @@ class ClubManagementSystemGUI {
             Club club = clubManager.getClub(clubName);
             if (club != null) {
                 JTextArea applicationTextArea = new JTextArea(10, 30); // 텍스트 박스 크기 설정 (행 x 열)
+                applicationTextArea.setLineWrap(true); // 줄바꿈을 활성화
+                applicationTextArea.setWrapStyleWord(true); // 단어 단위로 줄바꿈
                 JScrollPane scrollPane = new JScrollPane(applicationTextArea); // 스크롤 가능하도록 설정
 
                 int result = JOptionPane.showConfirmDialog(
