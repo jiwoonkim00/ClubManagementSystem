@@ -31,7 +31,7 @@ public class ClubManagementSystem {
         this.clubManager = new ClubManager();
         loadUsersFromFile(); // 사용자 정보 로드
         loadClubsFromFile();
-        new ClubManagementSystemGUI(clubManager).showLoginScreen(); // 로그인 화면 표시
+        new ClubManagementSystemGUI(clubManager, users, roles).showMainMenu(); // 로그인 화면 표시
     }
     /**
      * 프로그램의 메인 진입점입니다.
@@ -133,12 +133,12 @@ class ClubManagementSystemGUI {
      * @created 2024-12-19
      * @lastModified 2024-12-19
      */
-    public ClubManagementSystemGUI(ClubManager clubManager) {
+    public ClubManagementSystemGUI(ClubManager clubManager, Map<String, String> users, Map<String, String> roles) {
         this.clubManager = clubManager;
-        users = new HashMap<>();
-        roles = new HashMap<>();
-        loadUsersFromFile("users.txt"); //
+        this.users = users;
+        this.roles = roles;
     }
+
 
     /**
      * 사용자 데이터를 파일에서 로드합니다.
@@ -185,8 +185,11 @@ class ClubManagementSystemGUI {
      *
      * @created 2024-12-23
      */
-    public void showLoginScreen() {
 
+    public void showLoginScreen() {
+        showLoginScreen(null, null); // 기본적으로 parentFrame과 role을 null로 설정
+    }
+    public void showLoginScreen(JFrame parentFrame, String role) {
 
         JFrame frame = new JFrame("로그인");
         frame.setSize(300, 200);
@@ -205,20 +208,25 @@ class ClubManagementSystemGUI {
 
             // 사용자 검증
             if (users.containsKey(id) && users.get(id).equals(password)) {
-                String role = roles.get(id); // 역할 확인
-                frame.dispose(); // 로그인 창 닫기
+                String userRole = roles.get(id);
+                if (userRole != null && userRole.equals(role)) {
+                    frame.dispose(); // 로그인 창 닫기
+                    parentFrame.dispose(); // 메인 메뉴 닫기
 
-                // 역할에 따라 다음 화면으로 이동
-                switch (role) {
-                    case "관리자":
-                        showAdminMenu();
-                        break;
-                    case "학생":
-                        showStudentMenu();
-                        break;
-                    case "동아리 회장":
-                        showPresidentMenu();
-                        break;
+                    // 역할에 따라 메뉴로 이동
+                    switch (role) {
+                        case "관리자":
+                            showAdminMenu();
+                            break;
+                        case "학생":
+                            showStudentMenu();
+                            break;
+                        case "동아리 회장":
+                            showPresidentMenu();
+                            break;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "해당 역할로 접근할 권한이 없습니다.");
                 }
             } else {
                 JOptionPane.showMessageDialog(frame, "로그인 정보가 잘못되었습니다.");
@@ -275,7 +283,7 @@ class ClubManagementSystemGUI {
      * @created 2024-12-19
      * @lastModified 2024-12-20
      */
-    private void showMainMenu() {
+    public void showMainMenu() {
         JFrame frame = new JFrame("청주대학교 동아리 관리 시스템");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -284,22 +292,22 @@ class ClubManagementSystemGUI {
         JLabel label = new JLabel("청주대학교 동아리 관리 시스템", SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 16));
 
+        // 관리자 모드 버튼
         JButton adminButton = new JButton("관리자 모드");
         adminButton.addActionListener(e -> {
-            frame.dispose();
-            showAdminMenu();
+            showLoginScreen(frame, "관리자");
         });
 
+        // 학생 모드 버튼
         JButton studentButton = new JButton("학생 모드");
         studentButton.addActionListener(e -> {
-            frame.dispose();
-            showStudentMenu();
+            showLoginScreen(frame, "학생");
         });
 
+        // 동아리 회장 모드 버튼
         JButton presidentButton = new JButton("동아리 회장 모드");
         presidentButton.addActionListener(e -> {
-            frame.dispose();
-            showPresidentMenu();
+            showLoginScreen(frame, "동아리 회장");
         });
 
         JButton exitButton = new JButton("종료");
