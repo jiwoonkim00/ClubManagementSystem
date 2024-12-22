@@ -258,8 +258,7 @@ class ClubManagementSystemGUI {
      * 메인 메뉴를 표시합니다.
      * <p>
      * 이 메서드는 프로그램의 첫 화면인 메인 메뉴를 생성하고 표시합니다.
-     * 메인 메뉴에는 네 개의 주요 버튼이 포함되어 있으며, 각각 관리자 모드, 학생 모드, 동아리 회장 모드로의
-     * 접근과 프로그램 종료 기능을 제공합니다. 버튼 클릭 시 해당 모드의 서브 메뉴로 이동하거나 프로그램을 종료합니다.
+     * 메인 메뉴에서는 관리자, 학생, 동아리 회장 역할에 따라 로그인 창을 표시하며, 프로그램 종료 버튼도 포함됩니다.
      * </p>
      *
      * <p>
@@ -284,15 +283,15 @@ class ClubManagementSystemGUI {
      * <p>
      * 버튼 동작:
      * <ul>
-     *   <li>관리자 모드 버튼: {@link #showAdminMenu()} 호출</li>
-     *   <li>학생 모드 버튼: {@link #showStudentMenu()} 호출</li>
-     *   <li>동아리 회장 모드 버튼: {@link #showPresidentMenu()} 호출</li>
+     *   <li>관리자 모드 버튼: {@link #showLoginScreen(JFrame, String)} 호출</li>
+     *   <li>학생 모드 버튼: {@link #showLoginScreen(JFrame, String)} 호출</li>
+     *   <li>동아리 회장 모드 버튼: {@link #showLoginScreen(JFrame, String)} 호출</li>
      *   <li>종료 버튼: 프로그램 종료</li>
      * </ul>
      * </p>
      *
      * @created 2024-12-19
-     * @lastModified 2024-12-20
+     * @lastModified 2024-12-23
      */
     public void showMainMenu() {
         JFrame frame = new JFrame("청주대학교 동아리 관리 시스템");
