@@ -502,6 +502,7 @@ class ClubManagementSystemGUI {
      * <p>
      * 이 메서드는 특정 동아리에 제출된 가입 신청서를 JTable로 표시하며,
      * 신청자의 이름과 작성한 신청서를 포함합니다.
+     * 신청 승인 버튼 추가
      * </p>
      *
      * <p>
@@ -517,7 +518,7 @@ class ClubManagementSystemGUI {
      * @param club 가입 신청 목록을 표시할 동아리 객체
      *
      * @created 2024-12-20
-     * @lastModified 2024-12-20
+     * @lastModified 2024-12-23
      */
     private void displayApplicationTable(JFrame parentFrame, Club club) {
         JFrame frame = new JFrame("가입 신청 목록");
@@ -534,7 +535,61 @@ class ClubManagementSystemGUI {
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        frame.add(scrollPane);
+         /** 2024-12-23 추가
+         * 가입 신청서를 승인하는 버튼과 관련된 이벤트 핸들러를 정의합니다.
+         * <p>
+         * 이 버튼은 가입 신청 목록(JTable)에서 선택된 신청서를 승인하며, 승인된 신청서를 동아리 대기 목록에서 제거합니다.
+         * 또한, 승인된 신청서는 JTable에서도 제거되며, 성공적으로 처리된 경우 사용자에게 확인 메시지가 표시됩니다.
+         * </p>
+         *
+         * <p>
+         * 주요 동작:
+         * <ul>
+         *   <li>JTable에서 현재 선택된 행의 데이터를 확인합니다.</li>
+         *   <li>선택된 신청자의 이름을 기반으로 {@link Club#approveApplication(String)}을 호출하여 신청서를 승인합니다.</li>
+         *   <li>승인된 신청서를 JTable 및 동아리 대기 목록에서 제거합니다.</li>
+         *   <li>처리 결과에 따라 사용자에게 메시지를 표시합니다.</li>
+         * </ul>
+         * </p>
+         *
+         * <p>
+         * 예외 처리:
+         * <ul>
+         *   <li>선택된 행이 없는 경우, 사용자에게 "승인할 신청서를 선택하세요." 메시지를 표시합니다.</li>
+         *   <li>신청서 승인이 실패한 경우, "승인할 신청서를 찾을 수 없습니다." 메시지를 표시합니다.</li>
+         * </ul>
+         * </p>
+         *
+         * <p>
+         * 레이아웃 구성:
+         * <ul>
+         *   <li>중앙 영역: 신청 목록을 보여주는 {@link JScrollPane}</li>
+         *   <li>하단 영역: "신청 승인" 버튼</li>
+         * </ul>
+         * </p>
+         *
+         * @created 2024-12-23
+         * @lastModified 2024-12-23
+         */
+        JButton approveButton = new JButton("신청 승인");
+        approveButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >= 0) {
+                String memberName = table.getValueAt(selectedRow, 0).toString();
+                Member approvedMember = club.approveApplication(memberName);
+                if (approvedMember != null) {
+                    tableModel.removeRow(selectedRow); // 테이블에서 승인된 신청 제거
+                    JOptionPane.showMessageDialog(frame, "신청 승인 완료: " + approvedMember.getName());
+                } else {
+                    JOptionPane.showMessageDialog(frame, "승인할 신청서를 찾을 수 없습니다.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "승인할 신청서를 선택하세요.");
+            }
+        });
+
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(approveButton, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 
