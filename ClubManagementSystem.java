@@ -54,7 +54,7 @@ public class ClubManagementSystem {
      * </p>
      *
      * @created 2024-12-18
-     * @lastModified 2024-12-18
+     * @lastModified 2024-12-21
      */
     private void loadClubsFromFile() {
         String fileName = "clubs_data.txt";
@@ -281,6 +281,22 @@ class ClubManagementSystemGUI {
      * 학생은 동아리 목록을 확인하거나 특정 동아리에 가입 신청서를 제출할 수 있습니다.
      * </p>
      *
+     *  * <p>
+     *  * 주요 변경 사항(2024-12-23):
+     *  * <ul>
+     *  *   <li><b>JTextArea 사용</b>:
+     *  *     <p>가입 신청서 작성 시, {@code JTextArea(10, 30)}로 텍스트 입력 크기를 설정하였습니다.
+     *  *     여기서 10은 줄 수, 30은 열 수를 의미하며, 사용자가 더 긴 텍스트를 입력할 수 있는 공간을 제공합니다.</p>
+     *  *   </li>
+     *  *   <li><b>JScrollPane로 스크롤 가능 설정</b>:
+     *  *     <p>{@code JScrollPane}를 추가하여 텍스트가 길어질 경우 스크롤을 통해 내용을 확인할 수 있도록 하였습니다.</p>
+     *  *   </li>
+     *  *   <li><b>입력 확인</b>:
+     *  *     <p>{@code JOptionPane.showConfirmDialog}를 사용하여 OK/Cancel 버튼이 있는 입력 창을 표시하였습니다.
+     *  *     사용자가 입력 후 확인 버튼을 누르면 동아리 가입 신청서가 저장됩니다.</p>
+     *  *   </li>
+     *  * </ul>
+     *  * </p>
      * <p>
      * 구성 요소:
      * <ul>
@@ -308,7 +324,7 @@ class ClubManagementSystemGUI {
      * </p>
      *
      * @created 2024-12-20
-     * @lastModified 2024-12-20
+     * @lastModified 2024-12-23
      */
     private void showStudentMenu() {
         JFrame frame = new JFrame("학생 모드");
@@ -329,11 +345,26 @@ class ClubManagementSystemGUI {
 
             Club club = clubManager.getClub(clubName);
             if (club != null) {
-                String applicationText = JOptionPane.showInputDialog(frame, "가입 신청서 내용:");
-                if (applicationText == null || applicationText.trim().isEmpty()) return;
+                JTextArea applicationTextArea = new JTextArea(10, 30); // 텍스트 박스 크기 설정 (행 x 열)
+                JScrollPane scrollPane = new JScrollPane(applicationTextArea); // 스크롤 가능하도록 설정
 
-                club.addPendingApplication(new Member(studentName, applicationText));
-                JOptionPane.showMessageDialog(frame, "가입 신청이 제출되었습니다.");
+                int result = JOptionPane.showConfirmDialog(
+                        frame,
+                        scrollPane,
+                        "가입 신청서 작성",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE
+                );
+
+                if (result == JOptionPane.OK_OPTION) {
+                    String applicationText = applicationTextArea.getText().trim();
+                    if (!applicationText.isEmpty()) {
+                        club.addPendingApplication(new Member(studentName, applicationText));
+                        JOptionPane.showMessageDialog(frame, "가입 신청이 제출되었습니다.");
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "가입 신청서가 비어 있습니다. 다시 작성해주세요.");
+                    }
+                }
             } else {
                 JOptionPane.showMessageDialog(frame, "해당 동아리가 존재하지 않습니다.");
             }
@@ -351,6 +382,7 @@ class ClubManagementSystemGUI {
 
         frame.setVisible(true);
     }
+
 
     /**
      * 동아리 회장 메뉴를 표시합니다.
