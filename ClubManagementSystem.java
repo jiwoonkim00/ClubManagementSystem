@@ -110,7 +110,17 @@ public class ClubManagementSystem {
 /**
  * GUI 관리 클래스
  * <p>
- * 청주대학교 동아리 관리 시스템의 메인 메뉴와 각 모드의 서브 메뉴를 제공하는 GUI 클래스입니다.
+ * 청주대학교 동아리 관리 시스템의 메인 메뉴와 각 역할(관리자, 학생, 동아리 회장)에 따른 서브 메뉴를 제공하며,
+ * 사용자 로그인 기능도 포함됩니다.
+ * </p>
+ *
+ * <p>
+ * 주요 기능:
+ * <ul>
+ *   <li>메인 메뉴 표시: {@link #showMainMenu()}</li>
+ *   <li>로그인 창 표시: {@link #showLoginScreen(JFrame, String)}</li>
+ *   <li>관리자, 학생, 동아리 회장 메뉴 표시</li>
+ * </ul>
  * </p>
  *
  * @author Ji Woon Kim
