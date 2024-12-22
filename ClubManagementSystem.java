@@ -665,6 +665,22 @@ class Club {
     public List<Member> getPendingApplications() {
         return pendingApplications;
     }
+    /**
+     * 2024-12-23 수정
+     * 특정 이름의 가입 신청서를 승인합니다.
+     *
+     * @param name 승인할 회원의 이름
+     * @return 승인된 {@link Member} 객체, 없으면 null 반환
+     */
+    public Member approveApplication(String name) {
+        for (Member member : pendingApplications) {
+            if (member.getName().equals(name)) {
+                pendingApplications.remove(member); // 대기 목록에서 제거
+                return member; // 승인된 회원 반환
+            }
+        }
+        return null; // 신청서를 찾지 못한 경우
+    }
 }
 
 /**
