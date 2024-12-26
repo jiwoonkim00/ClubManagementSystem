@@ -29,7 +29,7 @@
 ## 3. 프로그램 수행 절차
 
 ### 3.1 다이어그램
-![클래스 다이어그램](User/kimjiwoon/Download/ClubManagemantSysyem.drawio.png)
+![클래스 다이어그램](./ClubManagemantSysyem.drawio.png)
 
 #### **프로그램 순서도**
 ```plaintext
